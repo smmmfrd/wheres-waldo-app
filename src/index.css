@@ -3,5 +3,22 @@ body {
 }
 
 img{
+  width: 100%;
   max-width: 970px;
+}
+
+.App{
+  position: relative;
+}
+
+.selector{
+  width: 150px;
+
+  position: absolute;
+  top: 0;
+}
+
+.selector--container{
+  display: flex;
+  flex-direction: column;
 }
