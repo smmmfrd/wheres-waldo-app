@@ -12,14 +12,16 @@ function App() {
   const [selectorPos, setSelectorPos] = useState({
     enabled: true,
     x: 0,
-    y: 0
+    y: 0,
+    displayX: 0,
+    displayY: 0
   })
 
   const handleMouseDown = (event) => {
     const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
 
     const inputY = event.pageY > (currentImg.current.clientHeight - 63) ? (currentImg.current.clientHeight - 63) : event.pageY;
-    
+
     setSelectorPos(prevPos => ({
       ...prevPos,
       x: event.pageX,
@@ -29,7 +31,7 @@ function App() {
     }))
   }
 
-  function checkInput(){
+  function checkInput(characterName){
     const inputX = Math.round((selectorPos.x / currentImg.current.clientWidth) * 100)
     const inputY = Math.round((selectorPos.y / currentImg.current.clientHeight) * 100)
 
@@ -37,16 +39,20 @@ function App() {
       return (inputX >= item.x && inputX <= item.w) && (inputY >= item.y && inputY <= item.h)
     })
 
-    console.log(point ? point.character : "Nothing Found")
+    console.log(point ? point.character === characterName : "Nothing Found")
   }
 
   return (
     <div className="App">
       <img ref={currentImg} onClick={handleMouseDown} src={gc} alt="A where's waldo featuring characters from GameCube games."/>
-      <Selector style={ { 
-        display: `${selectorPos.enabled ? 'block': 'none'}`,
-        top: `${selectorPos.displayY}px`,
-        left: `${selectorPos.displayX}px` } }/>
+      <Selector 
+        style={ { 
+          display: `${selectorPos.enabled ? 'block': 'none'}`,
+          top: `${selectorPos.displayY}px`,
+          left: `${selectorPos.displayX}px` } }
+        handleInput={checkInput}
+        characters={data.map(item => item.character)}
+      />
     </div>
   );
 }
