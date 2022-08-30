@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
 }
@@ -5,10 +9,24 @@ body {
 img{
   width: 100%;
   max-width: 970px;
+  user-select: none;
 }
 
 .App{
   position: relative;
+}
+
+.scoreDisplay{
+  width: 100%;
+
+  position: fixed;
+  top: 0;
+
+  background-color: rgba(0, 0, 0, 0.75);
+
+  color: #fff;
+  text-align: center;
+  user-select: none;
 }
 
 .selector{

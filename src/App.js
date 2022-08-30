@@ -4,13 +4,16 @@ import data from "./data"
 import Selector from "./components/Selector"
 
 import gc from "./assets/wheres-waldo-gc.png"
+import ScoreDisplay from "./components/ScoreDisplay"
 // import n64 from "./assets/wheres-waldo-n64.png"
 // import wii from "./assets/wheres-waldo-wii.png"
 
 function App() {
   const currentImg = useRef()
+
+  const [score, setScore] = useState(0)
   const [selectorPos, setSelectorPos] = useState({
-    enabled: true,
+    enabled: false,
     x: 0,
     y: 0,
     displayX: 0,
@@ -22,13 +25,13 @@ function App() {
 
     const inputY = event.pageY > (currentImg.current.clientHeight - 63) ? (currentImg.current.clientHeight - 63) : event.pageY;
 
-    setSelectorPos(prevPos => ({
-      ...prevPos,
+    setSelectorPos({
+      enabled: true,
       x: event.pageX,
       y: event.pageY,
       displayX: inputX,
       displayY: inputY
-    }))
+    })
   }
 
   function checkInput(characterName){
@@ -39,11 +42,18 @@ function App() {
       return (inputX >= item.x && inputX <= item.w) && (inputY >= item.y && inputY <= item.h)
     })
 
-    console.log(point ? point.character === characterName : "Nothing Found")
+    if(point && point.character === characterName){
+      setScore(score + 1)
+    }
+    setSelectorPos(prevPos => ({
+      ...prevPos,
+      enabled: false
+    }))
   }
 
   return (
     <div className="App">
+      <ScoreDisplay score={score}/>
       <img ref={currentImg} onClick={handleMouseDown} src={gc} alt="A where's waldo featuring characters from GameCube games."/>
       <Selector 
         style={ { 
