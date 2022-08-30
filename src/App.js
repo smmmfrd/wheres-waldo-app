@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import data from "./data"
 
 import Selector from "./components/Selector"
@@ -8,10 +8,11 @@ import ScoreDisplay from "./components/ScoreDisplay"
 // import n64 from "./assets/wheres-waldo-n64.png"
 // import wii from "./assets/wheres-waldo-wii.png"
 
-function App() {
+export default function App() {
   const currentImg = useRef()
 
-  const [score, setScore] = useState(0)
+  const [characters, setCharacters] = useState(() => data.map(item => item.character))
+  
   const [selectorPos, setSelectorPos] = useState({
     enabled: false,
     x: 0,
@@ -19,6 +20,12 @@ function App() {
     displayX: 0,
     displayY: 0
   })
+
+  useEffect(() => {
+    if(characters.length === 0){
+      window.alert("You won!");
+    }
+  }, [characters])
 
   const handleMouseDown = (event) => {
     const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
@@ -43,8 +50,9 @@ function App() {
     })
 
     if(point && point.character === characterName){
-      setScore(score + 1)
+      setCharacters(prevChars => prevChars.filter(char => char !== characterName))
     }
+
     setSelectorPos(prevPos => ({
       ...prevPos,
       enabled: false
@@ -53,7 +61,7 @@ function App() {
 
   return (
     <div className="App">
-      <ScoreDisplay score={score}/>
+      <ScoreDisplay score={3 - characters.length}/>
       <img ref={currentImg} onClick={handleMouseDown} src={gc} alt="A where's waldo featuring characters from GameCube games."/>
       <Selector 
         style={ { 
@@ -61,10 +69,8 @@ function App() {
           top: `${selectorPos.displayY}px`,
           left: `${selectorPos.displayX}px` } }
         handleInput={checkInput}
-        characters={data.map(item => item.character)}
+        characters={characters}
       />
     </div>
   );
 }
-
-export default App;

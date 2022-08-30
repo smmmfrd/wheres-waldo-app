@@ -40,3 +40,7 @@ img{
   display: flex;
   flex-direction: column;
 }
+
+.selector--container button{
+  height: 20px;
+}
