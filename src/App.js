@@ -10,6 +10,7 @@ import ScoreDisplay from "./components/ScoreDisplay"
 
 export default function App() {
   const currentImg = useRef()
+  const endingModal = useRef()
 
   const [characters, setCharacters] = useState(() => data.map(item => item.character))
   
@@ -23,7 +24,7 @@ export default function App() {
 
   useEffect(() => {
     if(characters.length === 0){
-      window.alert("You won!");
+      endingModal.current.showModal()
     }
   }, [characters])
 
@@ -59,8 +60,16 @@ export default function App() {
     }))
   }
 
+  function resetButton(){
+    window.location.reload()
+  }
+
   return (
     <div className="App">
+      <dialog ref={endingModal}>
+        <h1>All Characters Found!</h1>
+        <button onClick={resetButton}>Reset</button>
+      </dialog>
       <ScoreDisplay score={3 - characters.length}/>
       <img ref={currentImg} onClick={handleMouseDown} src={gc} alt="A where's waldo featuring characters from GameCube games."/>
       <Selector 
