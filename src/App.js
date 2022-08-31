@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react"
 import { firestore } from "./firebase"
-import data from "./data"
 
 import Selector from "./components/Selector"
 
@@ -9,11 +8,35 @@ import ScoreDisplay from "./components/ScoreDisplay"
 // import n64 from "./assets/wheres-waldo-n64.png"
 // import wii from "./assets/wheres-waldo-wii.png"
 
+
+async function getData(){
+  const doc = await firestore.collection('data').doc('gc').get()
+  const data = doc.data()
+  return data
+}
+
 export default function App() {
   const currentImg = useRef()
   const endingModal = useRef()
+  var charData = useRef({});
 
-  const [characters, setCharacters] = useState(() => data.map(item => item.character))
+  const [score, setScore] = useState(0)
+  const [characters, setCharacters] = useState([])
+  
+  useEffect(() => {
+    getData().then(data => {
+      charData.current = data;
+      setCharacters(() => {
+        let arr = []
+        for(let key in data){
+          arr.push(key)
+        }
+        return arr
+      })
+    })
+  }, [])
+
+  
   
   const [selectorPos, setSelectorPos] = useState({
     enabled: false,
@@ -24,16 +47,10 @@ export default function App() {
   })
 
   useEffect(() => {
-    if(characters.length === 0){
+    if(score === 3){
       endingModal.current.showModal()
     }
-  }, [characters])
-
-  async function getData(){
-    const doc = await firestore.collection('data').doc('gc').get()
-    console.log(doc.data())
-  }
-  getData();
+  }, [score])
 
   const handleMouseDown = (event) => {
     const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
@@ -53,12 +70,14 @@ export default function App() {
     const inputX = Math.round((selectorPos.x / currentImg.current.clientWidth) * 100)
     const inputY = Math.round((selectorPos.y / currentImg.current.clientHeight) * 100)
 
-    const point = data.find((item) => {
+    const point = (item) => {
       return (inputX >= item.x && inputX <= item.w) && (inputY >= item.y && inputY <= item.h)
-    })
+    }
 
-    if(point && point.character === characterName){
+    if(characterName in charData.current && point(charData.current[characterName])){
       setCharacters(prevChars => prevChars.filter(char => char !== characterName))
+
+      setScore(score + 1)
     }
 
     setSelectorPos(prevPos => ({
@@ -77,7 +96,7 @@ export default function App() {
         <h1>All Characters Found!</h1>
         <button onClick={resetButton}>Reset</button>
       </dialog>
-      <ScoreDisplay score={3 - characters.length}/>
+      <ScoreDisplay score={score}/>
       <img ref={currentImg} onClick={handleMouseDown} src={gc} alt="A where's waldo featuring characters from GameCube games."/>
       <Selector 
         style={ { 
