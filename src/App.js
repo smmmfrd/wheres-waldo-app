@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import { firestore } from "./firebase"
 import data from "./data"
 
 import Selector from "./components/Selector"
@@ -27,6 +28,12 @@ export default function App() {
       endingModal.current.showModal()
     }
   }, [characters])
+
+  async function getData(){
+    const doc = await firestore.collection('data').doc('gc').get()
+    console.log(doc.data())
+  }
+  getData();
 
   const handleMouseDown = (event) => {
     const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
