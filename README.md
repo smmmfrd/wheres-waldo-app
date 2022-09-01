@@ -17,7 +17,7 @@ https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwallpaper-games-maker
 http://vignette1.wikia.nocookie.net/fantendo/images/5/54/Toad3DLand.png/revision/latest/scale-to-width-down/140?cb=20111015175222
 
 #### N64
-Brian (main character from Quest 64):
+##### Brian (main character from Quest 64):
 https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fsmashboards.com%2Fattachments%2Fbrian4-png.285994%2F&f=1&nofb=1
 (hard to find official images, and the link straight to the forum breaks)
 
