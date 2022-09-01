@@ -61,6 +61,7 @@ export default function App() {
           returnToHome={returnToHome}
         />
       }
+      <img src="https://upload.wikimedia.org/wikipedia/en/4/46/Waluigi.png" />
     </div>
   );
 }
