@@ -5,17 +5,22 @@ import { firestore } from "../firebase"
 import Selector from "./Selector"
 import ScoreDisplay from "./ScoreDisplay"
 
-
-
 export default function Game(props){
-    const {docName, img} = props
+    const {docName, img, maxScore} = props
     const currentImg = useRef()
     const endingModal = useRef()
 
     const [score, setScore] = useState(0)
     // Character Names
     const [characters, setCharacters] = useState([])
-
+  
+    // Firestore Data retrieve
+    async function getData(){
+        const doc = await firestore.collection('data').doc(docName).get()
+        const data = doc.data()
+        return data
+    }
+    
     // Set up
     useEffect(() => {
         getData().then(data => {
@@ -38,9 +43,9 @@ export default function Game(props){
         displayY: 0
     })
 
-    // Ending
+    // Game Finished Check
     useEffect(() => {
-        if(score === 3){
+        if(score === maxScore){
             endingModal.current.showModal()
         }
     }, [score])
@@ -71,13 +76,7 @@ export default function Game(props){
       console.log(`Clicked at: (${inputX}, ${inputY})`)
     }
     */
-  
-    // Firestore Data retrieve
-    async function getData(){
-        const doc = await firestore.collection('data').doc(docName).get()
-        const data = doc.data()
-        return data
-    }
+
 
     // Check if Input is Correct (Button Click)
     async function checkInput(characterName){
@@ -97,7 +96,7 @@ export default function Game(props){
             }, 
             {}
         )
-        console.log(charData)
+        
         if(characterName in charData && point(charData[characterName])){
             setCharacters(prevChars => prevChars.filter(char => char !== characterName))
 
@@ -118,12 +117,13 @@ export default function Game(props){
         <div className="game">
             <dialog ref={endingModal}>
                 <h1>All Characters Found!</h1>
+                <button onClick={props.returnToHome}>Return To Home</button>
                 <button onClick={resetButton}>Reset</button>
             </dialog>
 
             <ScoreDisplay score={score}/>
 
-            <img ref={currentImg} onClick={handleMouseDown} src={img} alt="A where's waldo featuring characters from GameCube games."/>
+            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt="A where's waldo featuring characters from GameCube games."/>
 
             <Selector 
                 style={ { 

@@ -1,20 +1,31 @@
 *{
   box-sizing: border-box;
-}
-
-body {
   margin: 0;
-}
-
-img{
-  width: 100%;
-  max-width: 970px;
-  user-select: none;
 }
 
 .App{
   position: relative;
 }
+
+/* LEVEL SELECT */
+
+.level-card--container{
+  display:flex;
+}
+
+.level-card{
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 0.125rem 1rem;
+  text-align: center;
+}
+
+.level-card--img{
+  width: 165px;
+  max-width: 100%;
+}
+
+/* GAME */
 
 .scoreDisplay{
   width: 100%;
@@ -26,6 +37,12 @@ img{
 
   color: #fff;
   text-align: center;
+  user-select: none;
+}
+
+.game-img{
+  width: 100%;
+  max-width: 970px;
   user-select: none;
 }
 
