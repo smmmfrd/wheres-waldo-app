@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react"
 import { firestore } from "../firebase"
 
 import Selector from "./Selector"
-import ScoreDisplay from "./ScoreDisplay"
 
 export default function Game(props){
     const {docName, img, maxScore} = props
@@ -121,7 +120,11 @@ export default function Game(props){
                 <button onClick={resetButton}>Reset</button>
             </dialog>
 
-            <ScoreDisplay score={score}/>
+            <header className="scoreDisplay">
+                <button onClick={props.returnToHome}>Return Home</button>
+                <h1>Score: {score}</h1>
+                <button >Show Characters</button>
+            </header>
 
             <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt="A where's waldo featuring characters from GameCube games."/>
 

@@ -29,6 +29,7 @@
 
 .scoreDisplay{
   width: 100%;
+  padding: 0.25rem;
 
   position: fixed;
   top: 0;
@@ -36,8 +37,18 @@
   background-color: rgba(0, 0, 0, 0.75);
 
   color: #fff;
-  text-align: center;
   user-select: none;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.scoreDisplay > * {
+  margin: auto;
+}
+
+.scoreDisplay > button {
+  width: 150px;
 }
 
 .game-img{
