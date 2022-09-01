@@ -31,6 +31,20 @@ export default function Game(props){
                 return arr.sort()
             })
         })
+        
+        window.addEventListener('mousedown', () => {
+        setSelectorPos(prevPos => ({
+            ...prevPos,
+            enabled: false
+        }))})
+
+        return () => {
+            window.removeEventListener('mousedown', () => {
+            setSelectorPos(prevPos => ({
+                ...prevPos,
+                enabled: false
+            }))})
+        }
     }, [])
 
     // x & y are the real positions for checking mouse click, display values are buffered locations to prevent overflow
@@ -51,6 +65,7 @@ export default function Game(props){
 
     // Input to Set Selector Position
     const handleMouseDown = (event) => {
+        event.stopPropagation();
         const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
 
         var yOffset = characters.length * 20;
@@ -126,7 +141,7 @@ export default function Game(props){
                 <button >Show Characters</button>
             </header>
 
-            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt="A where's waldo featuring characters from GameCube games."/>
+            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`}/>
 
             <Selector 
                 style={ { 
