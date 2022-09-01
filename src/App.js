@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react"
 import { firestore } from "./firebase"
 
 import Selector from "./components/Selector"
+import ScoreDisplay from "./components/ScoreDisplay"
 
 import gc from "./assets/wheres-waldo-gc.png"
-import ScoreDisplay from "./components/ScoreDisplay"
 // import n64 from "./assets/wheres-waldo-n64.png"
 // import wii from "./assets/wheres-waldo-wii.png"
 
@@ -21,8 +21,10 @@ export default function App() {
   var charData = useRef({});
 
   const [score, setScore] = useState(0)
+  // Character Names
   const [characters, setCharacters] = useState([])
   
+  // Set up
   useEffect(() => {
     getData().then(data => {
       charData.current = data;
@@ -36,8 +38,7 @@ export default function App() {
     })
   }, [])
 
-  
-  
+  // x & y are the real positions for checking mouse click, display values are buffered locations to prevent overflow
   const [selectorPos, setSelectorPos] = useState({
     enabled: false,
     x: 0,
@@ -46,16 +47,19 @@ export default function App() {
     displayY: 0
   })
 
+  // Ending
   useEffect(() => {
     if(score === 3){
       endingModal.current.showModal()
     }
   }, [score])
 
+  // Input to Set Selector Position
   const handleMouseDown = (event) => {
     const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
 
-    const inputY = event.pageY > (currentImg.current.clientHeight - 63) ? (currentImg.current.clientHeight - 63) : event.pageY;
+    var yOffset = characters.length * 20;
+    const inputY = event.pageY > (currentImg.current.clientHeight - yOffset) ? (currentImg.current.clientHeight - yOffset) : event.pageY;
 
     setSelectorPos({
       enabled: true,
@@ -66,6 +70,17 @@ export default function App() {
     })
   }
 
+  // To get the positions of the characters
+  /*
+  const debugMouseDown = (event) => {
+    const inputX = Math.round((event.pageX / currentImg.current.clientWidth) * 100)
+    const inputY = Math.round((event.pageY / currentImg.current.clientHeight) * 100)
+
+    console.log(`Clicked at: (${inputX}, ${inputY})`)
+  }
+  */
+
+  // Check if Input is Correct (Button Click)
   function checkInput(characterName){
     const inputX = Math.round((selectorPos.x / currentImg.current.clientWidth) * 100)
     const inputY = Math.round((selectorPos.y / currentImg.current.clientHeight) * 100)

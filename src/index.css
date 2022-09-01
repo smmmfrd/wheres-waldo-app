@@ -41,6 +41,12 @@ img{
   flex-direction: column;
 }
 
-.selector--container button{
+.selector--button{
   height: 20px;
+  border: none;
+  background-color: white;
+}
+
+.selector--button:hover{
+  background-color: beige;
 }
