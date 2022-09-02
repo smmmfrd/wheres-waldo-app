@@ -128,17 +128,19 @@ export default function Game(props){
                 <button onClick={resetButton}>Reset</button>
             </dialog>
 
-            <dialog ref={characterModal}>
+            <dialog ref={characterModal} className="char-display--modal">
                 <h1>Remaining Characters</h1>
-                {characters.map((char) => (
-                        props.characterImages[char] !== undefined && 
-                            <CharDisplay 
-                                key={char}
-                                charName={char}
-                                img={props.characterImages[char]}
-                            />
-                    )
-                )}
+                <div className="char-display--container">
+                    {characters.map((char) => (
+                            props.characterImages[char] !== undefined && 
+                                <CharDisplay 
+                                    key={char}
+                                    charName={char}
+                                    img={props.characterImages[char]}
+                                />
+                        )
+                    )}
+                </div>
                 <button onClick={() => characterModal.current.close()}>Close</button>
             </dialog>
 
@@ -167,7 +169,7 @@ function CharDisplay(props) {
     return(
         <div className="char-display">
             <h2>{charName}</h2>
-            <img src={img} alt={`${charName}`} />
+            <img src={img} alt={`${charName}`} className="char-display--img"/>
         </div>
     )
 }

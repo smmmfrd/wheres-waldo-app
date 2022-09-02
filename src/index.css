@@ -57,6 +57,28 @@
   user-select: none;
 }
 
+/* Modals */
+dialog{
+  margin: auto;
+}
+
+dialog::backdrop{
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.char-display--container{
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  text-align: center;
+}
+
+.char-display--img{
+  height: 100px;
+  margin: auto;
+}
+
+/* SELECTOR */
 .selector{
   width: 150px;
 
