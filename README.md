@@ -19,7 +19,7 @@ http://vignette1.wikia.nocookie.net/fantendo/images/5/54/Toad3DLand.png/revision
 #### N64
 ##### Brian (main character from Quest 64):
 https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fsmashboards.com%2Fattachments%2Fbrian4-png.285994%2F&f=1&nofb=1
-(hard to find official images, and the link straight to the forum breaks)
+###### (hard to find official images, and the link straight to the forum breaks)
 
 ##### Conker:
 http://vgboxart.com/resources/render/13702_conker-bad-fur-day-prev.png

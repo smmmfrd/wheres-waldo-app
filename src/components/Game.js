@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
 import { firestore } from "../firebase"
 
@@ -8,6 +8,7 @@ export default function Game(props){
     const {docName, img, maxScore} = props
     const currentImg = useRef()
     const endingModal = useRef()
+    const characterModal = useRef()
 
     const [score, setScore] = useState(0)
     // Character Names
@@ -31,21 +32,13 @@ export default function Game(props){
                 return arr.sort()
             })
         })
-        
-        window.addEventListener('mousedown', () => {
-        setSelectorPos(prevPos => ({
-            ...prevPos,
-            enabled: false
-        }))})
-
-        return () => {
-            window.removeEventListener('mousedown', () => {
-            setSelectorPos(prevPos => ({
-                ...prevPos,
-                enabled: false
-            }))})
-        }
     }, [])
+
+    // Open character modal on start
+    useEffect(() => {
+        characterModal.current.removeAttribute('open')
+        characterModal.current.showModal()
+    }, [characterModal])
 
     // x & y are the real positions for checking mouse click, display values are buffered locations to prevent overflow
     const [selectorPos, setSelectorPos] = useState({
@@ -135,10 +128,24 @@ export default function Game(props){
                 <button onClick={resetButton}>Reset</button>
             </dialog>
 
+            <dialog ref={characterModal}>
+                <h1>Remaining Characters</h1>
+                {characters.map((char) => (
+                        props.characterImages[char] !== undefined && 
+                            <CharDisplay 
+                                key={char}
+                                charName={char}
+                                img={props.characterImages[char]}
+                            />
+                    )
+                )}
+                <button onClick={() => characterModal.current.close()}>Close</button>
+            </dialog>
+
             <header className="scoreDisplay">
                 <button onClick={props.returnToHome}>Return Home</button>
                 <h1>Score: {score}</h1>
-                <button >Show Characters</button>
+                <button onClick={() => characterModal.current.showModal()}>Show Characters</button>
             </header>
 
             <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`}/>
@@ -151,6 +158,16 @@ export default function Game(props){
                 handleInput={checkInput}
                 characters={characters}
             />
+        </div>
+    )
+}
+
+function CharDisplay(props) {
+    const {charName, img} = props
+    return(
+        <div className="char-display">
+            <h2>{charName}</h2>
+            <img src={img} alt={`${charName}`} />
         </div>
     )
 }
