@@ -87,9 +87,8 @@ export default function App() {
 function LevelCard(props){
   const {levelName, difficulty, img} = props;
   return (
-    <div className="level-card" onClick={props.handleClick}>
+    <div className="level-card" onClick={props.handleClick}style={{backgroundImage: `url(${img})`}}>
       <h2>{levelName.toUpperCase()}</h2>
-      <img className="level-card--img" src={img} alt={`${levelName}'s where waldo`}/>
       <h3>Difficulty: {difficulty} / 5</h3>
     </div>
   )
