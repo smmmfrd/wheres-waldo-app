@@ -2,8 +2,11 @@
 Assignment for Odin Project: https://www.theodinproject.com/lessons/node-path-javascript-where-s-waldo-a-photo-tagging-app
 
 ## Sources
-### Where's Waldo Images are from: 
+### Where's Waldo Images: 
 https://www.artstation.com/artwork/oOVVlJ
+
+### Background Pattern:
+https://kenney.nl/assets/pattern-pack
 
 ### Character Images
 #### GC

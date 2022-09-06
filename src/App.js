@@ -66,7 +66,7 @@ export default function App() {
     <div className="App">
       {selectedLevel.levelName === undefined ? 
         <div className="level-select">
-          <h1>Choose A Level</h1>
+          <h1 className="level-select--header">Choose A Level</h1>
           <div className="level-card--container">
             {levelElements}
           </div>
