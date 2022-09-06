@@ -144,10 +144,10 @@ export default function Game(props){
                 <button onClick={() => characterModal.current.close()}>Close</button>
             </dialog>
 
-            <header className="scoreDisplay">
-                <button onClick={props.returnToHome}>Return Home</button>
-                <h1>Score: {score}</h1>
-                <button onClick={() => characterModal.current.showModal()}>Show Characters</button>
+            <header className="score-display">
+                <button onClick={props.returnToHome}className="score-display--button">Return Home</button>
+                <h1 className="score-display--score">Score: {score}</h1>
+                <button onClick={() => characterModal.current.showModal()} className="score-display--button">Show Characters</button>
             </header>
 
             <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`}/>
