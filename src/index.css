@@ -1,6 +1,7 @@
 *{
   box-sizing: border-box;
   margin: 0;
+  font-family: 'Gothic A1', sans-serif;
 }
 
 body{
@@ -57,6 +58,7 @@ button:active{
   color: white;
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
+  padding: 0.5rem 0;
 }
 
 .level-card--img{
