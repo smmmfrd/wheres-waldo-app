@@ -122,10 +122,12 @@ export default function Game(props){
 
     return(
         <div className="game">
-            <dialog ref={endingModal}>
+            <dialog ref={endingModal} className="ending-modal">
                 <h1>All Characters Found!</h1>
-                <button onClick={props.returnToHome}>Return To Home</button>
-                <button onClick={resetButton}>Reset</button>
+                <div className="ending-modal--button-container">
+                    <button onClick={props.returnToHome}>Return To Home</button>
+                    <button onClick={resetButton}>Reset</button>
+                </div>
             </dialog>
 
             <dialog ref={characterModal} className="char-display--modal">
