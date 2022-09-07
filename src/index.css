@@ -14,6 +14,10 @@ body{
   position: relative;
 }
 
+button:active{
+  color: grey;
+}
+
 /* LEVEL SELECT */
 
 .level-card--container{
@@ -111,18 +115,19 @@ dialog{
   border: 4px solid #b33939;
   border-radius: 1rem;
   padding: 1rem 2rem;
+  user-select: none;
 }
 
 dialog::backdrop{
   background: rgba(0, 0, 0, 0.75);
 }
 
-.char-display--container > button {
+dialog > button, .ending-modal--button-container > button  {
   color: white;
-  width: 75px;
   background-color: black;
   border: 2px solid #b33939;
   border-radius: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .char-display--container{
@@ -144,14 +149,6 @@ dialog::backdrop{
 .ending-modal--button-container{
   display: flex;
   justify-content: space-between;
-}
-
-.ending-modal--button-container > button {
-  color: white;
-  background-color: black;
-  border: 2px solid #b33939;
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
 }
 
 /* SELECTOR */
