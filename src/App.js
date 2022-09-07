@@ -42,6 +42,7 @@ const levels = [
 ]
 
 export default function App() {
+  const [reset, setReset] = useState(0)
   const [selectedLevel, setSelectedLevel] = useState({})
 
   const levelElements = levels.map(level => (
@@ -61,6 +62,11 @@ export default function App() {
   function returnToHome(){
     setSelectedLevel({});
   }
+
+  function resetGame(){
+    console.log('resetting');
+    setReset(prevReset => prevReset === 0 ? 1 : 0);
+  }
   
   return (
     <div className="App">
@@ -73,11 +79,13 @@ export default function App() {
         </div>
       :
         <Game 
+          key={reset}
           docName={selectedLevel.levelName}
           img={selectedLevel.img}
           maxScore={selectedLevel.difficulty}
           characterImages={selectedLevel.characterImages}
           returnToHome={returnToHome}
+          reset={resetGame}
         />
       }
     </div>

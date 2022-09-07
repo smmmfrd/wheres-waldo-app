@@ -116,17 +116,13 @@ export default function Game(props){
         }))
     }
 
-    function resetButton(){
-        window.location.reload()
-    }
-
     return(
         <div className="game">
             <dialog ref={endingModal} className="ending-modal">
                 <h1>All Characters Found!</h1>
                 <div className="ending-modal--button-container">
                     <button onClick={props.returnToHome}>Return To Home</button>
-                    <button onClick={resetButton}>Reset</button>
+                    <button onClick={props.reset}>Reset</button>
                 </div>
             </dialog>
 
