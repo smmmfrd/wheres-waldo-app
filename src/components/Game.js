@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 
 import { firestore } from "../firebase"
 
@@ -15,11 +15,11 @@ export default function Game(props){
     const [characters, setCharacters] = useState([])
   
     // Firestore Data retrieve
-    async function getData(){
+    const getData = useCallback(async () => {
         const doc = await firestore.collection('data').doc(docName).get()
         const data = doc.data()
         return data
-    }
+    }, [docName])
     
     // Set up
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function Game(props){
                 return arr.sort()
             })
         })
-    }, [])
+    }, [getData])
 
     // Open character modal on start
     useEffect(() => {
@@ -54,7 +54,7 @@ export default function Game(props){
         if(score === maxScore){
             endingModal.current.showModal()
         }
-    }, [score])
+    }, [score, maxScore])
 
     // Input to Set Selector Position
     const handleMouseDown = (event) => {
