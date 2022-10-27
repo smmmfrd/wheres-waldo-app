@@ -15,8 +15,16 @@ body{
   position: relative;
 }
 
+button {
+  font-size: large;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
 button:active{
-  color: grey;
+  color: darkgray;
 }
 
 /* LEVEL SELECT */

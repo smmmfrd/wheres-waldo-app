@@ -72,18 +72,6 @@ export default function Game(props){
             displayY: inputY
         })
     }
-  
-
-    // To get the positions of the characters
-    /*
-    const debugMouseDown = (event) => {
-      const inputX = Math.round((event.pageX / currentImg.current.clientWidth) * 100)
-      const inputY = Math.round((event.pageY / currentImg.current.clientHeight) * 100)
-  
-      console.log(`Clicked at: (${inputX}, ${inputY})`)
-    }
-    */
-
 
     // Check if Input is Correct (Button Click)
     async function checkInput(characterName){
@@ -162,8 +150,7 @@ export default function Game(props){
     )
 }
 
-function CharDisplay(props) {
-    const {charName, img} = props
+function CharDisplay({charName, img}) {
     return(
         <div className="char-display">
             <h2>{charName}</h2>
