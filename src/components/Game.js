@@ -4,8 +4,8 @@ import { firestore } from "../firebase"
 
 import Selector from "./Selector"
 
-export default function Game(props){
-    const {docName, img, maxScore} = props
+export default function Game(props) {
+    const { docName, img, maxScore } = props
     const currentImg = useRef()
     const endingModal = useRef()
     const characterModal = useRef()
@@ -13,20 +13,20 @@ export default function Game(props){
     const [score, setScore] = useState(0)
     // Character Names
     const [characters, setCharacters] = useState([])
-  
+
     // Firestore Data retrieve
     const getData = useCallback(async () => {
         const doc = await firestore.collection('data').doc(docName).get()
         const data = doc.data()
         return data
     }, [docName])
-    
+
     // Set up
     useEffect(() => {
         getData().then(data => {
             setCharacters(() => {
                 let arr = []
-                for(let key in data){
+                for (let key in data) {
                     arr.push(key)
                 }
                 return arr.sort()
@@ -51,7 +51,7 @@ export default function Game(props){
 
     // Game Finished Check
     useEffect(() => {
-        if(score === maxScore){
+        if (score === maxScore) {
             endingModal.current.showModal()
         }
     }, [score, maxScore])
@@ -59,22 +59,25 @@ export default function Game(props){
     // Input to Set Selector Position
     const handleMouseDown = (event) => {
         event.stopPropagation();
-        const inputX = event.pageX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.pageX;
+
+        // Get the inputs
+        const inputX = event.nativeEvent.offsetX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.nativeEvent.offsetX;
 
         var yOffset = characters.length * 20;
-        const inputY = event.pageY > (currentImg.current.clientHeight - yOffset) ? (currentImg.current.clientHeight - yOffset) : event.pageY;
+        const inputY = event.nativeEvent.offsetY > (currentImg.current.clientHeight - yOffset) ? (currentImg.current.clientHeight - yOffset) : event.nativeEvent.offsetY;
 
+        // Tell the modal to start showing, where to check, and where to be
         setSelectorPos({
             enabled: true,
-            x: event.pageX,
-            y: event.pageY,
+            x: event.nativeEvent.offsetX,
+            y: event.nativeEvent.offsetY,
             displayX: inputX,
             displayY: inputY
         })
     }
 
     // Check if Input is Correct (Button Click)
-    async function checkInput(characterName){
+    async function checkInput(characterName) {
         const inputX = Math.round((selectorPos.x / currentImg.current.clientWidth) * 100)
         const inputY = Math.round((selectorPos.y / currentImg.current.clientHeight) * 100)
 
@@ -88,11 +91,11 @@ export default function Game(props){
             (obj, key) => {
                 obj[key] = unsortedcharData[key];
                 return obj;
-            }, 
+            },
             {}
         )
-        
-        if(characterName in charData && point(charData[characterName])){
+
+        if (characterName in charData && point(charData[characterName])) {
             setCharacters(prevChars => prevChars.filter(char => char !== characterName))
 
             setScore(score + 1)
@@ -104,7 +107,7 @@ export default function Game(props){
         }))
     }
 
-    return(
+    return (
         <div className="game">
             <dialog ref={endingModal} className="ending-modal">
                 <h1>All Characters Found!</h1>
@@ -118,31 +121,32 @@ export default function Game(props){
                 <h1>Remaining Characters</h1>
                 <div className="char-display--container">
                     {characters.map((char) => (
-                            props.characterImages[char] !== undefined && 
-                                <CharDisplay 
-                                    key={char}
-                                    charName={char}
-                                    img={props.characterImages[char]}
-                                />
-                        )
+                        props.characterImages[char] !== undefined &&
+                        <CharDisplay
+                            key={char}
+                            charName={char}
+                            img={props.characterImages[char]}
+                        />
+                    )
                     )}
                 </div>
                 <button onClick={() => characterModal.current.close()}>Close</button>
             </dialog>
 
             <header className="score-display">
-                <button onClick={props.returnToHome}className="score-display--button">Return Home</button>
+                <button onClick={props.returnToHome} className="score-display--button">Return Home</button>
                 <h1 className="score-display--score">Score: {score}</h1>
                 <button onClick={() => characterModal.current.showModal()} className="score-display--button">Show Characters</button>
             </header>
 
-            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`}/>
+            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`} draggable={false} />
 
-            <Selector 
-                style={ { 
-                    display: `${selectorPos.enabled ? 'block': 'none'}`,
+            <Selector
+                style={{
+                    display: `${selectorPos.enabled ? 'block' : 'none'}`,
                     top: `${selectorPos.displayY}px`,
-                    left: `${selectorPos.displayX}px` } }
+                    left: `${selectorPos.displayX}px`
+                }}
                 handleInput={checkInput}
                 characters={characters}
             />
@@ -150,11 +154,11 @@ export default function Game(props){
     )
 }
 
-function CharDisplay({charName, img}) {
-    return(
+function CharDisplay({ charName, img }) {
+    return (
         <div className="char-display">
             <h2>{charName}</h2>
-            <img src={img} alt={`${charName}`} className="char-display--img"/>
+            <img src={img} alt={`${charName}`} className="char-display--img" />
         </div>
     )
 }

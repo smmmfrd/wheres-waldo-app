@@ -182,4 +182,5 @@ dialog button {
 
 .selector--button:hover{
   background-color: beige;
+  transform: scaleY(1.05);
 }
