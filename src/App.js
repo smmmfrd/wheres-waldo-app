@@ -88,6 +88,11 @@ export default function App() {
           reset={resetGame}
         />
       }
+      <footer style={{
+        position: selectedLevel.levelName ? "relative" : "fixed"
+      }}>
+        <p>&#169; <a href="https://github.com/smmmfrd" target='_blank' rel='noreferrer'>smmmfrd</a> 2021</p>
+      </footer>
     </div>
   );
 }
