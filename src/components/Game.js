@@ -61,10 +61,12 @@ export default function Game(props) {
         event.stopPropagation();
 
         // Get the inputs
-        const inputX = event.nativeEvent.offsetX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.nativeEvent.offsetX;
+        var inputX = event.nativeEvent.offsetX > (currentImg.current.clientWidth - 150) ? (currentImg.current.clientWidth - 150) : event.nativeEvent.offsetX;
+        // Add the image's left margin
+        inputX += currentImg.current.offsetLeft;
 
         var yOffset = characters.length * 20;
-        const inputY = event.nativeEvent.offsetY > (currentImg.current.clientHeight - yOffset) ? (currentImg.current.clientHeight - yOffset) : event.nativeEvent.offsetY;
+        var inputY = event.nativeEvent.offsetY > (currentImg.current.clientHeight - yOffset) ? (currentImg.current.clientHeight - yOffset) : event.nativeEvent.offsetY;
 
         // Tell the modal to start showing, where to check, and where to be
         setSelectorPos({
@@ -139,7 +141,8 @@ export default function Game(props) {
                 <button onClick={() => characterModal.current.showModal()} className="score-display--button">Show Characters</button>
             </header>
 
-            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`} draggable={false} />
+            <img className="game-img" ref={currentImg} onClick={handleMouseDown} src={img} alt={`A where's waldo featuring characters from ${docName} games.`} draggable={false}>
+            </img>
 
             <Selector
                 style={{
